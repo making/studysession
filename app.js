@@ -28,8 +28,8 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+// app.get('/', routes.index);
+// app.get('/users', user.list);
 app.get('/candidates', candidates.list);
 app.post('/candidates', candidates.post);
 app.get('/candidates/:id', candidates.get);

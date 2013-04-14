@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Study Session</title>
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.2/css/normalize.min.css"/>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.2/css/foundation.min.css"/>
+    <link rel="stylesheet" href="css/app.css"/>
+    <script src="js/vendor/custom.modernizr.js"></script>
+
+</head>
+<body>
+
+<!-- body content here -->
+<!-- Nav Bar -->
+
+<div class="row">
+    <div class="large-12 columns">
+        <h1>Study Session</h1>
+        <hr/>
+    </div>
+</div>
+
+<!-- End Nav -->
+
+
+<!-- Main Page Content and Sidebar -->
+
+<div class="row">
+
+    <!-- Main Blog Content -->
+    <div class="large-9 columns" role="content">
+        <article>
+            <h3>Session Candidates</h3>
+
+            <div id="candidate-form"></div>
+            <div id="candidate-list"></div>
+        </article>
+
+    </div>
+
+    <!-- End Main Content -->
+
+
+    <!-- Sidebar -->
+
+    <aside class="large-3 columns">
+        <h5>Menu</h5>
+        <ul class="side-nav">
+            <li><a href="#">Show candidates</a></li>
+            <li><a href="#">Register a candidate</a></li>
+        </ul>
+    </aside>
+
+    <!-- End Sidebar -->
+</div>
+
+<!-- End Main Content and Sidebar -->
+
+
+<!-- Footer -->
+
+<footer class="row">
+    <div class="large-12 columns">
+        <hr/>
+        <div class="row">
+            <div class="large-6 columns">
+                <p>&copy; Copyright @making.</p>
+            </div>
+            <div class="large-offset-6 columns">
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Templates -->
+<script type="text/template" id="tpl-candidate-list-item">
+    <a href='#candidates/<%= id %>'><%= title %></a>
+</script>
+
+<script type="text/template" id="tpl-candidate-form">
+    <div>
+        <label>Id:</label>
+        <input type="text" id="id" name="id" value="<%= id %>" disabled/>
+        <label>Title:</label>
+        <input type="text" id="title" name="title" value="<%= title %>" required/>
+        <label>Genre:</label>
+        <input type="text" id="genre" name="genre" value="<%= genre %>"/>
+        <label>Creator:</label>
+        <input type="text" id="creator" name="creator" value="<%= creator %>"/>
+        <label>Speaker:</label>
+        <input type="text" id="speaker" name="speaker" value="<%= speaker %>"/>
+    </div>
+</script>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.2/js/foundation.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+    $(document).foundation();
+</script>
+</body>
+</html>
