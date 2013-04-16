@@ -18,7 +18,6 @@ studysession.Candidate = Backbone.Model.extend({
         like: 0
     },
     initialize: function () {
-
     }
 });
 
@@ -31,11 +30,12 @@ studysession.Candidates = Backbone.Collection.extend({
 
 // Views
 studysession.CandidateListView = Backbone.View.extend({
-    tagName: 'ul',
+    tagName: 'table',
     initialize: function () {
         this.collection.bind('reset', this.render, this);
     },
     render: function (eventName) {
+	this.$el.append('<tr><th>TITLE</th><th>GENRE</th><th>CREATOR</th><th>SPEAKER</th><th>LIKE</th></tr>');
         this.collection.each(function (candidate) {
             this.$el.append(new studysession.CandidateListItemView({
                 model: candidate
@@ -46,7 +46,7 @@ studysession.CandidateListView = Backbone.View.extend({
 });
 
 studysession.CandidateListItemView = Backbone.View.extend({
-    tagName: 'li',
+    tagName: 'tr',
     template: _.template($('#tpl-candidate-list-item').html()),
     render: function (eventName) {
         this.$el.html(this.template(this.model.toJSON()));
@@ -71,8 +71,11 @@ studysession.AppRouter = Backbone.Router.extend({
     list: function () {
         this.candidates = new studysession.Candidates();
         this.candidateListView = new studysession.CandidateListView({collection: this.candidates});
-        this.candidates.fetch();
-        $('#candidate-list').html(this.candidateListView.render().el);
+	var that = this;
+        this.candidates.fetch({success: function() {
+	    $('#candidate-form').html('');
+	    $('#candidate-list').html(that.candidateListView.render().el);
+	}});
     },
     details: function (id) {
         this.candidate = this.candidates.get(id);
