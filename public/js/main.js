@@ -89,8 +89,13 @@ studysession.CandidateFormView = Backbone.View.extend({
 	    creator: $('#creator').val(),
 	    speaker: $('#speaker').val().split(',')
 	});
+	var that = this;
 	if (this.model.isNew()) {
-	    app.candidates.create(this.model);
+	    app.candidates.create(this.model, {
+		success: function() {
+		    app.navigate('candidates/' + that.model.id, false);
+		}
+	    });
 	} else {
 	    this.model.save();
 	}
@@ -130,18 +135,26 @@ studysession.AppRouter = Backbone.Router.extend({
 	    success: function() {
 		$('#candidate-form').html('');
 		$('#candidate-list').html(that.candidateListView.render().el);
+		if (that.requestedId) {
+		    that.details(that.requestedId);
+		}
 	    }
 	});
     },
     details: function (id) {
-        this.candidate = this.candidates.get(id);
-	if (this.candidateView) {
-	    this.candidateView.close();
+	if (this.candidates) {
+            this.candidate = this.candidates.get(id);
+	    if (this.candidateView) {
+		this.candidateView.close();
+	    }
+            this.candidateView = new studysession.CandidateFormView({
+		model: this.candidate
+	    });
+            $('#candidate-form').html(this.candidateView.render().el);
+	} else {
+	    this.requestedId = id;
+	    this.list();
 	}
-        this.candidateView = new studysession.CandidateFormView({
-	    model: this.candidate
-	});
-        $('#candidate-form').html(this.candidateView.render().el);
     },
     form: function() {
 	if (this.candidateView) {
