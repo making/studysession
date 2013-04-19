@@ -53,7 +53,7 @@
         <h5>Menu</h5>
         <ul class="side-nav">
             <li><a href="#">Show candidates</a></li>
-            <li><a href="#">Register a candidate</a></li>
+            <li><a href="#form">Register a candidate</a></li>
         </ul>
     </aside>
 
@@ -90,7 +90,7 @@
     <%= creator %>
   </td>
   <td>
-    <%= speaker.join(', ') %>
+    <%= speaker.join(',') %>
   </td>
   <td>
     <a href="#" class="tiny button"><%= like %> LIKE</a>
@@ -108,7 +108,9 @@
         <label>Creator:</label>
         <input type="text" id="creator" name="creator" value="<%= creator %>"/>
         <label>Speaker:</label>
-        <input type="text" id="speaker" name="speaker" value="<%= speaker %>"/>
+        <input type="text" id="speaker" name="speaker" value="<%= speaker.join(',') %>"/>
+	<button class="tiny save">Save</button>
+	<button class="tiny delete alert">Delete</button>
     </div>
 </script>
 
