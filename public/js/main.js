@@ -29,7 +29,6 @@ studysession.CandidateListView = Backbone.View.extend({
     tagName: 'table',
     initialize: function () {
         this.collection.bind('sort', function (e) {
-            console.log('sort', e);
         }, this);
         this.collection.bind('add', function (candidate) {
             if (this.headerAppended) {
@@ -40,7 +39,7 @@ studysession.CandidateListView = Backbone.View.extend({
         }, this);
     },
     render: function (eventName) {
-        this.$el.append('<tr><th>TITLE</th><th>GENRE</th><th>CREATOR</th><th>SPEAKER</th><th>LIKE</th></tr>');
+        this.$el.append('<tr><th>TITLE</th><th>GENRE</th><th>CREATOR</th><th>SPEAKER</th><th>ACTION</th></tr>');
         this.headerAppended = true;
         this.collection.each(function (candidate) {
             this.$el.append(new studysession.CandidateListItemView({
@@ -63,7 +62,8 @@ studysession.CandidateListItemView = Backbone.View.extend({
         return this;
     },
     events: {
-        'click .like': 'like'
+        'click .like': 'like',
+        'click .delete': 'deleteCandidate'
     },
     like: function () {
         var model = this.model;
@@ -75,6 +75,16 @@ studysession.CandidateListItemView = Backbone.View.extend({
                 model.collection.sort();
             }
         });
+    },
+    deleteCandidate: function () {
+        if (confirm('Are you sure to delete ' + this.model.get('title') + '?')) {
+            this.model.destroy({
+                success: function () {
+                    alert('deleted successfully!');
+                }
+            });
+        }
+        return false;
     },
     close: function () {
         this.$el.unbind();
@@ -93,8 +103,7 @@ studysession.CandidateFormView = Backbone.View.extend({
     },
     events: {
         'change input': 'change',
-        'click .save': 'saveCandidate',
-        'click .delete': 'deleteCandidate'
+        'click .save': 'saveCandidate'
     },
     change: function (event) {
         //var target = event.target;
@@ -119,15 +128,6 @@ studysession.CandidateFormView = Backbone.View.extend({
         }
         return false;
     },
-    deleteCandidate: function () {
-        this.model.destroy({
-            success: function () {
-                alert('deleted successfully!');
-                window.history.back();
-            }
-        });
-        return false;
-    },
     close: function () {
         this.$el.unbind();
         this.$el.empty();
@@ -137,13 +137,13 @@ studysession.CandidateFormView = Backbone.View.extend({
 // Router
 studysession.AppRouter = Backbone.Router.extend({
     routes: {
-        '': 'list',
-        'candidates/:id': 'details',
-        'form': 'form'
+        '': 'candidatesList',
+        'candidates/:id': 'candidatesDetails',
+        'candidates?form': 'candidatesForm'
     },
     initialize: function () {
     },
-    list: function () {
+    candidatesList: function () {
         this.candidates = new studysession.Candidates();
         this.candidateListView = new studysession.CandidateListView({
             collection: this.candidates
@@ -160,7 +160,7 @@ studysession.AppRouter = Backbone.Router.extend({
             }
         });
     },
-    details: function (id) {
+    candidatesDetails: function (id) {
         if (this.candidates) {
             this.candidate = this.candidates.get(id);
             if (this.candidateView) {
@@ -173,12 +173,12 @@ studysession.AppRouter = Backbone.Router.extend({
         } else {
             var that = this;
             this.afterFetch = function () {
-                that.details(id);
+                that.candidatesDetails(id);
             };
-            this.list();
+            this.candidatesList();
         }
     },
-    form: function () {
+    candidatesForm: function () {
         if (this.candidates) {
             if (this.candidateView) {
                 this.candidateView.close();
@@ -190,9 +190,9 @@ studysession.AppRouter = Backbone.Router.extend({
         } else {
             var that = this;
             this.afterFetch = function () {
-                that.form();
+                that.candidatesForm();
             };
-            this.list();
+            this.candidatesList();
         }
     }
 });
