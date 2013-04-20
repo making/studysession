@@ -4,13 +4,15 @@ var Candidate = model.Candidate;
 /*
  * GET candidates listing.
  */
-
 exports.list = function (req, res) {
     Candidate.find({}, function (err, items) {
         res.send(items);
     });
 };
 
+/*
+ * GET the candidate.
+ */
 exports.get = function (req, res) {
     var id = req.params.id;
     Candidate.findOne({'id': id}, function (err, item) {
@@ -24,6 +26,9 @@ exports.get = function (req, res) {
     });
 };
 
+/*
+ * create a new candidate.
+ */
 exports.post = function (req, res) {
     var candidate = new Candidate(req.body);
     if (!candidate.speaker) {
@@ -38,6 +43,9 @@ exports.post = function (req, res) {
     });
 };
 
+/*
+ * update the candidate.
+ */
 exports.put = function (req, res) {
     var id = req.params.id;
     Candidate.findOne({'id': id}, function (err, item) {
@@ -58,6 +66,9 @@ exports.put = function (req, res) {
     });
 };
 
+/*
+ * increment the candidate's like
+ */
 exports.like = function (req, res) {
     var id = req.params.id;
     Candidate.findOne({'id': id}, function (err, item) {
@@ -78,6 +89,9 @@ exports.like = function (req, res) {
     });
 };
 
+/*
+ * delete the candidate.
+ */
 exports.del = function (req, res) {
     var id = req.params.id;
     Candidate.findOne({'id': id}, function (err, item) {
